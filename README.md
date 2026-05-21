@@ -55,8 +55,7 @@ Deck-Lens/
 │   └── technical.md      / technical-zh.md
 ├── templates/            # Replaceable design templates
 │   └── design-default.md / design-default-zh.md
-└── examples/
-    └── spectrum-analyzer.md   # A worked example using the Pitch lens
+
 ```
 
 > **Note:** Only `SKILL.md` is read when the skill is installed. `SKILL-en.md` and `SKILL-zh.md` are human-readable language variants — to switch language, copy the one you want into `SKILL.md`.
@@ -89,7 +88,7 @@ Deck Lens is a Claude Skill. To use it:
 
 ## Example
 
-`examples/spectrum-analyzer.md` is a fully worked example: a competition pitch for a spectrum analyzer software enhancement, told through the Pitch lens with all 10 beats mapped out. Use it as a reference for tone and depth.
+Examples will be added later on as a demo or reference.
 
 ---
 
@@ -97,18 +96,19 @@ Deck Lens is a Claude Skill. To use it:
 
 ### Near-term polish
 
-- **Chinese worked example** — `examples/spectrum-analyzer.md` is currently English only; a `-zh` version would help Chinese-speaking users learn the structure
-- **Examples for the other three lenses** — only the Pitch lens has a worked example so far; Internal, Government, and Technical would each benefit from one
-- **Reduce the three-file overhead** — `SKILL.md`, `SKILL-en.md`, and `SKILL-zh.md` must currently be kept in sync by hand; worth consolidating to one canonical file plus separate translated docs
+- **Working examples are missing** — add example folder and examples for all four lenses will be helpful and useful.
 
 ### Possible future additions
 
-- **More design templates** — the default is a single Royal Blue / bright theme; presets such as a dark theme or a minimal academic theme could live alongside it
-- **A hybrid worked example** — e.g. a technical pitch, to show in practice how borrowing one beat from a second lens works
 - **Additional lenses** — only if a real gap appears; a teaching/educational lens or a conference-talk lens are candidates
 - **A visual lens-selection flowchart** in the docs, for people who want to pick a lens without running the skill
+- **More design templates** — the default is a single Royal Blue / bright theme; presets such as a dark theme or a minimal academic theme could live alongside it
+- **A hybrid worked example** — e.g. a technical pitch, to show in practice how borrowing one beat from a second lens works
 
-Contributions and suggestions are welcome — open an issue or a pull request.
+
+
+## Contributions and suggestions are always welcome!
+Please open an issue or a pull request.
 
 ---
 
