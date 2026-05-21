@@ -1,117 +1,97 @@
 ---
-name: presentation-builder
-description: Use this skill whenever the user asks to create a PPT, presentation, slide deck, pitch, demo script, or any kind of reporting/汇报/演讲稿/presentation material. Triggers include: "帮我做个PPT", "帮我写汇报", "做个presentation", "写个演讲稿", "make me a slide deck", "prepare a pitch", "help me present X", "我要汇报", "比赛要交PPT". Also triggers when the user describes a product, feature, or project they want to present — even if they don't say "PPT" explicitly. Always use this skill before generating any presentation content.
+name: deck-lens
+description: Use this skill to choose the right narrative lens for a presentation based on audience, context, and goal, then generate the matching slide structure, PPTX, or speech script. Triggers include "make me a slide deck", "prepare a pitch", "help me present X", "write a speech script", "build a presentation", "帮我做个PPT", "帮我写汇报", "做个presentation", "写个演讲稿", "我要汇报", "比赛要交PPT". Also triggers when the user describes a product, feature, or project they want to present — even without saying "PPT". Always run this skill before generating any presentation content.
 ---
 
-# Presentation Builder Skill
+# Deck Lens
 
-A skill for building polished, persuasive presentations and presentation materials.
+Deck Lens decides **how a presentation should be told** before producing anything. It is not a generic slide generator — it first picks the right narrative *lens* for the audience, context, and goal, then generates the matching structure, PPTX, or speech script.
 
-## Step 0 — Ask for Output Format
-
-Before doing anything else, ask the user:
-
-> 你需要哪种输出格式？/ What output format do you need?
-> 1. **PPTX 文件** — 可直接打开的幻灯片文件
-> 2. **演讲稿** — 详细的逐页文字稿，适合背稿或朗读
-> 3. **两者都要** — PPTX + 配套演讲稿
-
-Then proceed based on their answer.
+The same project told through the wrong lens fails. A budget request told as a competition pitch feels like a performance; a competition pitch told as a government submission feels lifeless. Choosing the lens is the job.
 
 ---
 
-## Step 1 — Clarify Audience & Tone
+## Step 1 — Read the Situation
 
-Ask (or infer from context):
-- **技术受众还是非技术受众？** Unless the user explicitly says the audience is technical (engineers, developers, etc.), default to **non-technical mode**: no implementation details, no code, no architecture diagrams. Focus on features, benefits, and impact.
-- **语言** — Chinese, English, or bilingual? Default to the language the user is writing in.
-- **场景** — Competition pitch? Internal report? Client demo? Adjust formality accordingly.
+Before anything else, understand **who** the deck is for and **why** it exists. Ask the user, or infer from what they've already said:
 
----
+- **Audience** — Who is in the room? Investors, judges, clients, internal leadership, a government review panel, engineers?
+- **Context** — What's the occasion? Competition, funding round, internal review, formal submission, technical handoff?
+- **Goal** — What outcome do you want? Win, get funded, get approval, get sign-off, transfer knowledge?
 
-## Step 2 — Gather Content
-
-Ask the user to describe:
-1. **主题 / Topic** — What is this about?
-2. **痛点 / Pain points** — What problem does it solve? What's broken today?
-3. **解决方案 / Solution** — What does your product/feature/approach do?
-4. **亮点 / Key highlights** — Top 3–5 things you want the audience to remember
-5. **延伸价值 / Future value** — Any roadmap, potential, or scalability to mention?
-
-If the user already gave this in their initial message, skip asking and proceed directly.
+If the user already made this clear, don't re-ask — move to Step 2.
 
 ---
 
-## Step 3 — Apply the Narrative Structure
+## Step 2 — Recommend a Lens (auto-detect, then confirm)
 
-All presentations follow this 9-beat structure. Adapt the content to fit; do not skip beats.
+Deck Lens has four lenses. Match the situation to one:
 
-| # | Beat | Purpose |
-|---|------|---------|
-| 1 | **引入 / Hook** | Open with a trend, stat, or observation that makes the audience lean in. ("近年来…越来越…") |
-| 2 | **主题 + 口号 / Theme & Slogan** | State what this is about. Land a punchy tagline: innovation, practicality, convenience. |
-| 3 | **痛点 / Pain Points** | Make the audience feel the problem. Be specific and relatable. Use numbers if possible. |
-| 4 | **现状对比 / Status Quo Gap** | Show that existing approaches fall short. Adapt the framing to context: competitor products (commercial), other teams/departments (internal), or industry-wide practices. If Beat 1 was too broad or didn't fully land the industry backdrop, weave in additional context here. Position your solution as the clear gap-filler. |
-| 5 | **我司做法 / Our Approach** | Introduce your solution feature by feature. Order: most fundamental → most impressive. Keep it benefit-led, not implementation-led (unless technical audience). |
-| 6 | **直观展示 / Visual Demo** | Screenshots, photos, or live demo. Show, don't just tell. |
-| 7 | **总结对应图 / Summary Map** | One slide that maps each pain point → your solution. Audience sees the complete picture. |
-| 8 | **上价值 / Future Value** | What's the potential? What's reserved for future? Signals vision and scalability. |
-| 9 | **回归主题 / Closing Slogan** | Echo beat 2. End on the same energy you opened with. Leave them with the tagline. |
+| Lens | Use for | Core logic |
+|------|---------|------------|
+| **Pitch** | Competition, fundraising, client demo, product launch | Win attention → feel the pain → solution → pricing → call to action |
+| **Internal Report** | Leadership / management / cross-department reporting | Conclusion first, then evidence (pyramid principle) |
+| **Government / Institution** | Government bodies, public institutions, regulators | Legitimacy → objective evidence → reliability → verifiable outcomes → risk control |
+| **Technical Handoff** | Developers, architects, technical client stakeholders | Requirement discovery → design → logic → implementation → testing → delivery |
 
----
+**Auto-detection signals:**
+- "for leadership / management / report to my boss / 给领导汇报" → **Internal Report**
+- "competition / judges / investors / clients / pitch / 比赛 / 路演 / 融资" → **Pitch**
+- "government / public institution / regulator / formal submission / 体制内 / 政府 / 事业单位" → **Government / Institution**
+- "technical lead / architecture review / handoff / developers / 技术负责人 / 交接 / 架构评审" → **Technical Handoff**
 
-## Step 4 — Design Rules (Always Apply)
+**Always confirm before proceeding.** State your pick and the reasoning, then ask. Example:
 
-### Color Palette
-Use **only** these colors. No exceptions unless the user explicitly overrides.
+> This looks like **Internal Report** mode — the audience is internal leadership, so they'll want the conclusion up front, then the supporting evidence. Shall I proceed with this lens?
 
-| Role | Color |
-|------|-------|
-| Primary accent | 宝蓝色 Royal Blue `#4169E1` |
-| Deep background / headings | 深蓝色 Navy `#003399` |
-| Background / text on dark | 白色 White `#FFFFFF` |
-| Body text | 黑色 Black `#1A1A1A` |
-| Highlight / premium touch | 金色 Gold `#C9A84C` *(use sparingly)* |
+Do not skip confirmation even when the signal is strong. The user may know something about the room that you don't.
 
-**Rules:**
-- Max 3 colors per slide
-- Gold only for key callouts, titles of milestone slides, or award-context presentations
-- Never use gradients with more than 2 of these colors
-- No random accent colors (no red, green, purple, orange, teal, etc.)
-
-### Typography & Layout
-- One idea per slide
-- Headlines ≤ 10 words
-- Bullet points ≤ 6 per slide, ≤ 12 words each
-- Use icons or visuals instead of long text wherever possible
-- Consistent font: suggest **思源黑体 / Source Han Sans** (Chinese) or **Inter / Helvetica** (English)
-
-### Content Depth (Default: Non-Technical)
-- ✅ Feature names, user benefits, before/after comparisons, metrics
-- ❌ Code snippets, API details, database schemas, implementation architecture
-- If technical mode is requested, add a dedicated "Technical Deep Dive" section at the end, keeping the main flow clean
+**Hybrid situations:** If a deck genuinely spans two lenses (e.g. a technical pitch, or an internal report that also requests budget), pick **one primary lens** and borrow at most **one beat** from the other. Name the borrowed beat explicitly. Do not blend all four — a four-way hybrid has no shape.
 
 ---
 
-## Step 5 — Generate Output
+## Step 3 — Ask for Output Format
 
-### If PPTX:
-Read `/mnt/skills/public/pptx/SKILL.md` before generating. Follow all instructions there.
-Structure slides according to the 9-beat narrative. Each beat = 1–2 slides max (except Visual Demo, which can expand).
+Once the lens is confirmed:
 
-### If 演讲稿 (Speech Script):
-Generate a structured script with:
-- **Slide title** for each section
-- **Speaker notes** in natural spoken language (not bullet points)
-- **Transition lines** between sections
-- Match the language the user requested (Chinese / English / bilingual)
-- Estimated speaking time per section (assume ~120 words/min Chinese, ~150 words/min English)
-
-### If Both:
-Generate PPTX first, then derive the speech script from the slide content.
+> What output format do you need?
+> 1. **PPTX file** — A ready-to-open slide deck
+> 2. **Speech script** — A detailed written script for speaking or memorizing
+> 3. **Both** — PPTX + matching speech script
 
 ---
+
+## Step 4 — Gather Content
+
+Ask the user to describe (skip any they've already provided):
+1. **Topic** — What is this about?
+2. **Pain points** — What problem does it solve? What's broken today?
+3. **Solution** — What does your product, feature, or approach do?
+4. **Key highlights** — The top 3–5 things the audience should remember
+5. **Future value** — Any roadmap, potential, or scalability worth mentioning?
+
+Default content depth is **non-technical** (no code, no architecture, no implementation detail) for every lens except Technical Handoff, which has its own depth rules.
+
+---
+
+## Step 5 — Generate
+
+1. Load the confirmed lens file from `modes/` and follow its structure beat by beat.
+2. **If PPTX or Both:** apply a design template. Default is `templates/design-default.md`. If the user has their own template, use theirs instead.
+3. **If Speech script or Both:** write natural spoken language per section, with transition lines and estimated speaking time (~150 words/min English, ~120 characters/min Chinese).
+4. **If Both:** generate the PPTX first, then derive the script from the slide content.
+5. For PPTX generation, read `/mnt/skills/public/pptx/SKILL.md` first and follow its instructions.
+
+---
+
+## Lens Files
+- `modes/pitch.md` — Pitch
+- `modes/internal.md` — Internal Report
+- `modes/government.md` — Government / Institution
+- `modes/technical.md` — Technical Handoff
+
+## Design Templates
+- `templates/design-default.md` — Default lens (Royal Blue, bright background). Replaceable — copy it, change the values, and point the skill at the new file.
 
 ## Reference Example
-
-See `examples/spectrum-analyzer.md` for a fully worked example of this skill applied to a spectrum analyzer software enhancement pitch. Use it as a reference for tone, depth, and how to apply the 9-beat structure to a real product.
+- `examples/spectrum-analyzer.md` — A worked example using the Pitch lens.

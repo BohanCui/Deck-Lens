@@ -1,115 +1,99 @@
 ---
-name: presentation-builder
-description: Use this skill whenever the user asks to create a PPT, presentation, slide deck, pitch, demo script, speech script, or any kind of reporting or presentation material. Triggers include: "make me a slide deck", "prepare a pitch", "help me present X", "write a speech script", "build a presentation", "I need to present this", "make slides for X". Also triggers when the user describes a product, feature, or project they want to present — even if they don't explicitly say "PPT" or "slides". Always use this skill before generating any presentation content.
+name: deck-lens
+description: Use this skill to choose the right narrative lens for a presentation based on audience, context, and goal, then generate the matching slide structure, PPTX, or speech script. Triggers include "make me a slide deck", "prepare a pitch", "help me present X", "write a speech script", "build a presentation", "I need to present this". Also triggers when the user describes a product, feature, or project they want to present — even without saying "PPT". Always run this skill before generating any presentation content.
 ---
 
-# Presentation Builder Skill
+# Deck Lens
 
-A skill for building polished, persuasive presentations and presentation materials.
+Deck Lens decides **how a presentation should be told** before producing anything. 
 
-## Step 0 — Ask for Output Format
+It is not a generic slide generator — it first picks the right narrative *lens* for the audience, context, and goal, then generates the matching structure, PPTX, or speech script.
 
-Before doing anything else, ask the user:
+The same project told through the wrong lens fails. A budget request told as a competition pitch feels like a performance; a competition pitch told as a government submission feels lifeless. Choosing the lens is the job.
+
+---
+
+## Step 1 — Read the Situation
+
+Before anything else, understand **who** the deck is for and **why** it exists. Ask the user, or infer from what they've already said:
+
+- **Audience** — Who is in the room? Investors, judges, clients, internal leadership, a government review panel, engineers?
+- **Context** — What's the occasion? Competition, funding round, internal review, formal submission, technical handoff?
+- **Goal** — What outcome do you want? Win, get funded, get approval, get sign-off, transfer knowledge?
+
+If the user already made this clear, don't re-ask — move to Step 2.
+
+---
+
+## Step 2 — Recommend a Lens (auto-detect, then confirm)
+
+Deck Lens has four lenses. Match the situation to one:
+
+| Lens | Use for | Core logic |
+|------|---------|------------|
+| **Pitch** | Competition, fundraising, client demo, product launch | Win attention → feel the pain → solution → pricing → call to action |
+| **Internal Report** | Leadership / management / cross-department reporting | Conclusion first, then evidence (pyramid principle) |
+| **Government / Institution** | Government bodies, public institutions, regulators | Legitimacy → objective evidence → reliability → verifiable outcomes → risk control |
+| **Technical Handoff** | Developers, architects, technical client stakeholders | Requirement discovery → design → logic → implementation → testing → delivery |
+
+**Auto-detection signals:**
+- "for leadership / management / report to my boss" → **Internal Report**
+- "competition / judges / investors / clients / pitch" → **Pitch**
+- "government / public institution / regulator / formal submission" → **Government / Institution**
+- "technical lead / architecture review / handoff / developers" → **Technical Handoff**
+
+**Always confirm before proceeding.** State your pick and the reasoning, then ask. Example:
+
+> This looks like **Internal Report** mode — the audience is internal leadership, so they'll want the conclusion up front, then the supporting evidence. Shall I proceed with this lens?
+
+Do not skip confirmation even when the signal is strong. The user may know something about the room that you don't.
+
+**Hybrid situations:** If a deck genuinely spans two lenses (e.g. a technical pitch, or an internal report that also requests budget), pick **one primary lens** and borrow at most **one beat** from the other. Name the borrowed beat explicitly. Do not blend all four — a four-way hybrid has no shape.
+
+---
+
+## Step 3 — Ask for Output Format
+
+Once the lens is confirmed:
 
 > What output format do you need?
 > 1. **PPTX file** — A ready-to-open slide deck
-> 2. **Speech script** — A detailed page-by-page written script for speaking or memorizing
+> 2. **Speech script** — A detailed written script for speaking or memorizing
 > 3. **Both** — PPTX + matching speech script
 
-Then proceed based on their answer.
-
 ---
 
-## Step 1 — Clarify Audience & Tone
+## Step 4 — Gather Content
 
-Ask (or infer from context):
-- **Technical or non-technical audience?** Unless the user explicitly says the audience is technical (engineers, developers, etc.), default to **non-technical mode**: no implementation details, no code, no architecture diagrams. Focus on features, benefits, and impact.
-- **Scene** — Competition pitch? Internal report? Client demo? Adjust formality accordingly.
-
----
-
-## Step 2 — Gather Content
-
-Ask the user to describe:
+Ask the user to describe (skip any they've already provided):
 1. **Topic** — What is this about?
 2. **Pain points** — What problem does it solve? What's broken today?
 3. **Solution** — What does your product, feature, or approach do?
-4. **Key highlights** — The top 3–5 things you want the audience to remember
+4. **Key highlights** — The top 3–5 things the audience should remember
 5. **Future value** — Any roadmap, potential, or scalability worth mentioning?
 
-If the user already provided this in their initial message, skip asking and proceed directly.
+Default content depth is **non-technical** (no code, no architecture, no implementation detail) for every lens except Technical Handoff, which has its own depth rules.
 
 ---
 
-## Step 3 — Apply the 9-Beat Narrative Structure
+## Step 5 — Generate
 
-All presentations follow this structure. Adapt the content to fit; do not skip beats.
-
-| # | Beat | Purpose |
-|---|------|---------|
-| 1 | **Hook** | Open with a trend, stat, or observation that makes the audience lean in. ("In recent years, X has become increasingly…") |
-| 2 | **Theme & Slogan** | State what this is about. Land a punchy tagline around innovation, practicality, or convenience. |
-| 3 | **Pain Points** | Make the audience feel the problem. Be specific and relatable. Use numbers where possible. |
-| 4 | **Status Quo Gap** | Show that existing approaches fall short. Adapt framing to context: competitor products (commercial), other teams or departments (internal), or industry-wide practices. If Beat 1 was too broad, weave in additional industry context here. Position your solution as the clear gap-filler. |
-| 5 | **Our Approach** | Introduce your solution feature by feature. Order: most fundamental → most impressive. Lead with what the user gains, not how it was built (unless technical audience). |
-| 6 | **Visual Demo** | Screenshots, photos, or demo footage. Show, don't just tell. |
-| 7 | **Summary Map** | One slide that maps each pain point to your solution. The audience sees the complete picture at a glance. |
-| 8 | **Future Value** | What's the potential? What's reserved for future development? Signal vision and scalability. |
-| 9 | **Closing Slogan** | Echo Beat 2. End on the same energy you opened with. Leave them with the tagline. |
+1. Load the confirmed lens file from `modes/` and follow its structure beat by beat.
+2. **If PPTX or Both:** apply a design template. Default is `templates/design-default.md`. If the user has their own template, use theirs instead.
+3. **If Speech script or Both:** write natural spoken language per section, with transition lines and estimated speaking time (~150 words/min).
+4. **If Both:** generate the PPTX first, then derive the script from the slide content.
+5. For PPTX generation, read `/mnt/skills/public/pptx/SKILL.md` first and follow its instructions.
 
 ---
 
-## Step 4 — Design Rules (Always Apply)
+## Lens Files
+- `modes/pitch.md` — Pitch
+- `modes/internal.md` — Internal Report
+- `modes/government.md` — Government / Institution
+- `modes/technical.md` — Technical Handoff
 
-### Color Palette
-Use **only** these colors. No exceptions unless the user explicitly overrides.
-
-| Role | Color |
-|------|-------|
-| Primary accent | Royal Blue `#4169E1` |
-| Deep background / headings | Navy `#003399` |
-| Background / text on dark | White `#FFFFFF` |
-| Body text | Black `#1A1A1A` |
-| Highlight / premium touch | Gold `#C9A84C` *(use sparingly)* |
-
-**Rules:**
-- Max 3 colors per slide
-- Gold only for key callouts, milestone slide titles, or award/competition contexts
-- Never use gradients with more than 2 of these colors
-- No random accent colors (no red, green, purple, orange, teal, etc.)
-
-### Typography & Layout
-- One idea per slide
-- Headlines ≤ 10 words
-- Bullet points ≤ 6 per slide, ≤ 12 words each
-- Use icons or visuals instead of long text wherever possible
-- Recommended font: **Inter** or **Helvetica**
-
-### Content Depth (Default: Non-Technical)
-- ✅ Feature names, user benefits, before/after comparisons, metrics
-- ❌ Code snippets, API details, database schemas, implementation architecture
-- If technical mode is requested, add a dedicated "Technical Deep Dive" section at the end — keep the main flow clean
-
----
-
-## Step 5 — Generate Output
-
-### If PPTX:
-Read `/mnt/skills/public/pptx/SKILL.md` before generating. Follow all instructions there.
-Structure slides according to the 9-beat narrative. Each beat = 1–2 slides max (except Visual Demo, which can expand).
-
-### If Speech Script:
-Generate a structured script with:
-- **Slide title** for each section
-- **Speaker notes** in natural spoken language (not bullet points)
-- **Transition lines** between sections
-- Estimated speaking time per section (assume ~150 words/min)
-
-### If Both:
-Generate PPTX first, then derive the speech script from the slide content.
-
----
+## Design Templates
+- `templates/design-default.md` — Default lens (Royal Blue, bright background). Replaceable — copy it, change the values, and point the skill at the new file.
 
 ## Reference Example
-
-See `examples/spectrum-analyzer.md` for a fully worked example of this skill applied to a spectrum analyzer software enhancement competition pitch. Use it as a reference for tone, depth, and how to apply the 9-beat structure to a real product.
+- `examples/spectrum-analyzer.md` — A worked example using the Pitch lens.
