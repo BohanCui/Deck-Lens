@@ -84,11 +84,6 @@ Deck Lens is a Claude Skill. To use it:
 2. Add it to your Claude environment as a skill (see [Claude Skills documentation](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview))
 3. Ask Claude to create a presentation, pitch, report, or speech script — Deck Lens triggers automatically
 
----
-
-## Example
-
-Examples will be added later on as a demo or reference.
 
 ---
 
@@ -96,18 +91,18 @@ Examples will be added later on as a demo or reference.
 
 ### Near-term polish
 
-- **Working examples are missing** — add example folder and examples for all four lenses will be helpful and useful.
+- **Working examples are missing** — currently adding example folder and examples for all four lenses  since i belive these will be helpful and useful.
 
 ### Possible future additions
 
-- **Additional lenses** — only if a real gap appears; a teaching/educational lens or a conference-talk lens are candidates
+- **Additional lenses** — only if a real gap appears; a teaching/educational lens or a conference-talk lens are candidates, and also considering adding sub-lenses to the big ones
 - **A visual lens-selection flowchart** in the docs, for people who want to pick a lens without running the skill
 - **More design templates** — the default is a single Royal Blue / bright theme; presets such as a dark theme or a minimal academic theme could live alongside it
 - **A hybrid worked example** — e.g. a technical pitch, to show in practice how borrowing one beat from a second lens works
 
 
 
-## Contributions and suggestions are always welcome!
+## Contributions and suggestions are always welcomed!
 Please open an issue or a pull request.
 
 ---
